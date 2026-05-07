@@ -32,15 +32,19 @@ export const AuthProvider = ({ children }) => {
     return data.data.user;
   };
 
-  const logout = async () => {
+  const logout = async (navigate) => {
+    // Clear state immediately so components unmount / stop fetching
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+
+    // Navigate first, then call API in background
+    if (navigate) navigate('/login');
+
     try {
       await api.post('/auth/logout');
     } catch {
       // Ignore errors - token might already be invalid
-    } finally {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      setUser(null);
     }
   };
 
