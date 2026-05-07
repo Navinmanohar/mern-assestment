@@ -51,6 +51,10 @@ exports.toggleBookmark = async (req, res, next) => {
     }
 
     const user = await User.findById(req.userId);
+    if (!user) {
+      return next(new AppError('User not found', 404));
+    }
+
     const index = user.bookmarks.indexOf(story._id);
 
     if (index > -1) {
@@ -76,6 +80,10 @@ exports.getBookmarks = async (req, res, next) => {
       path: 'bookmarks',
       options: { sort: { postedAt: -1 } },
     });
+
+    if (!user) {
+      return next(new AppError('User not found', 404));
+    }
 
     res.json({ success: true, data: user.bookmarks });
   } catch (error) {
