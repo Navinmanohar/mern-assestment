@@ -17,7 +17,7 @@ const Navbar = () => {
             to={user ? '/' : '/login'} 
             className="text-xl font-bold text-slate-900 tracking-tight"
           >
-            HN Reader
+           Dashboard
           </Link>
 
           <div className="flex items-center gap-4 sm:gap-6">
