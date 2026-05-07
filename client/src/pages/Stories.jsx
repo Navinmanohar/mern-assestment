@@ -29,39 +29,43 @@ const Stories = () => {
   if (loading && !stories.length) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 border-4 border-orange-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-2 border-indigo-600 border-t-transparent rounded-full" />
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">Top Stories</h1>
-        <span className="text-sm text-gray-500">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-2xl font-bold text-slate-900">Top Stories</h1>
+        <span className="text-sm text-slate-500">
           Page {pagination.page} of {pagination.totalPages}
         </span>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {stories.map((story) => (
           <StoryCard key={story._id} story={story} user={user} />
         ))}
       </div>
 
       {pagination.totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="flex justify-center gap-3 mt-10">
           <button
             onClick={() => fetchStories(pagination.page - 1)}
             disabled={pagination.page <= 1}
-            className="px-4 py-2 border rounded disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 transition"
+            className="px-5 py-2.5 border border-slate-300 rounded-xl text-sm font-medium 
+                     text-slate-700 hover:bg-slate-50 transition-colors 
+                     disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Previous
           </button>
           <button
             onClick={() => fetchStories(pagination.page + 1)}
             disabled={pagination.page >= pagination.totalPages}
-            className="px-4 py-2 border rounded disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 transition"
+            className="px-5 py-2.5 border border-slate-300 rounded-xl text-sm font-medium 
+                     text-slate-700 hover:bg-slate-50 transition-colors 
+                     disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Next
           </button>
