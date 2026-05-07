@@ -11,3 +11,5 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+// s5V6HM8j8mkUlY5i pass
+// navinmanohar8235_db_user //user nae

@@ -4,7 +4,10 @@
   "main": "server/src/server.js",
   "scripts": {
     "start": "node server/src/server.js",
-    "dev": "nodemon server/src/server.js",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "nodemon server/src/server.js",
+    "client:dev": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -25,6 +28,7 @@
     "morgan": "^1.10.1"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "nodemon": "^3.1.14"
   }
 }
