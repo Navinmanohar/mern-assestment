@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const BlacklistedToken = require('../models/BlacklistedToken');
 const AppError = require('../utils/AppError');
 
 const signToken = (id) =>
@@ -54,5 +55,20 @@ exports.login = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const expiresAt = new Date(decoded.exp * 1000);
+      await BlacklistedToken.create({ token, expiresAt });
+    }
+    res.json({ success: true, message: 'Logged out successfully' });
+  } catch {
+    // Token might already be invalid, just return success
+    res.json({ success: true, message: 'Logged out successfully' });
   }
 };

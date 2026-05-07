@@ -1,16 +1,21 @@
 const jwt = require('jsonwebtoken');
+const BlacklistedToken = require('../models/BlacklistedToken');
 const AppError = require('../utils/AppError');
 
-const protect = (req, res, next) => {
-  const token = req.headers.authorization?.startsWith('Bearer ')
-    ? req.headers.authorization.split(' ')[1]
-    : null;
-
-  if (!token) {
+const protect = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) {
     return next(new AppError('Not authenticated. Please login.', 401));
   }
 
+  const token = authHeader.split(' ')[1];
+
   try {
+    const blacklisted = await BlacklistedToken.findOne({ token });
+    if (blacklisted) {
+      return next(new AppError('Session expired. Please login again.', 401));
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decoded.id;
     next();
