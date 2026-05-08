@@ -35,7 +35,7 @@ app.use('/api', scraperRoutes);
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../../client/dist')));
 
-  app.get('*', (_req, res) => {
+  app.use((_req, res) => {
     res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
   });
 }
